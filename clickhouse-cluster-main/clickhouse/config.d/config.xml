@@ -19,7 +19,7 @@
                 </replica>
                 <replica>
                     <host>ch-01-02</host>
-                    <port>9001</port>
+                    <port>9000</port>
                 </replica>
             </shard>
         </testing_cluster>
