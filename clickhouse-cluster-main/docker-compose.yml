@@ -13,6 +13,8 @@ services:
     image: zookeeper:3.5
     restart: "unless-stopped"
     hostname: zookeeper-1
+    Volumes:
+      - ./zookeeper/zoo.cfg:/conf/zoo.cfg:ro
     environment:
       ZOO_MY_ID: 1
       ZOO_PORT: 2181
@@ -27,6 +29,8 @@ services:
     image: zookeeper:3.5
     restart: "unless-stopped"
     hostname: zookeeper-2
+    Volumes:
+      - ./zookeeper/zoo.cfg:/conf/zoo.cfg:ro
     environment:
       ZOO_MY_ID: 2
       ZOO_PORT: 2181
@@ -41,6 +45,8 @@ services:
     image: zookeeper:3.5
     restart: "unless-stopped"
     hostname: zookeeper-3
+    Volumes:
+      - ./zookeeper/zoo.cfg:/conf/zoo.cfg:ro
     environment:
       ZOO_MY_ID: 3
       ZOO_PORT: 2181
