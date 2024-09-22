@@ -63,7 +63,6 @@ services:
       - ./clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
       - ./clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
       - ./clickhouse/config.d/ch-01-01.xml:/etc/clickhouse-server/config.d/node-config.xml:ro
-      - /var/log/clickhouse-server:/var/log/clickhouse-server
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -81,7 +80,6 @@ services:
       - ./clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
       - ./clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
       - ./clickhouse/config.d/ch-01-02.xml:/etc/clickhouse-server/config.d/node-config.xml:ro
-      - /var/log/clickhouse-server:/var/log/clickhouse-server
     depends_on:
       - zookeeper-1
       - zookeeper-2
