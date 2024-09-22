@@ -1,0 +1,90 @@
+services:
+  chproxy:
+    image: tacyuuhon/clickhouse-chproxy:latest
+    ports:
+      - 9050:9090
+    volumes:
+      - ./chproxy/config.yml:/opt/config.yml:ro
+    depends_on:
+      - ch-01-01
+      - ch-01-02
+
+  zookeeper-1:
+    image: zookeeper:3.5
+    restart: "unless-stopped"
+    hostname: zookeeper-1
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper-1:2888:3888;2181 server.2=zookeeper-2:2888:3888;2181 server.3=zookeeper-1:2888:3888;2181
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  zookeeper-2:
+    image: zookeeper:3.5
+    restart: "unless-stopped"
+    hostname: zookeeper-2
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper-1:2888:3888;2181 server.2=zookeeper-2:2888:3888;2181 server.3=zookeeper-1:2888:3888;2181
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  zookeeper-3:
+    image: zookeeper:3.5
+    restart: "unless-stopped"
+    hostname: zookeeper-3
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper-1:2888:3888;2181 server.2=zookeeper-2:2888:3888;2181 server.3=zookeeper-1:2888:3888;2181
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  ch-01-01:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    user: "1000:1000"
+    hostname: ch-01-01
+    ports:
+      - "127.0.0.1:8123:8123"
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - ./data/clickhouse/ch-01-01/:/var/lib/clickhouse
+      - ./clickhouse/initdb.d/:/docker-entrypoint-initdb.d:ro
+      - ./clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/config.d/ch-01-01.xml:/etc/clickhouse-server/config.d/node-config.xml:ro
+      - /var/log/clickhouse-server:/var/log/clickhouse-server
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+
+  ch-01-02:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    user: "1000:1000"
+    hostname: ch-01-02
+    ports:
+      - "127.0.0.1:8124:8123"
+      - "127.0.0.1:9001:9000"
+    volumes:
+      - ./data/clickhouse/ch-01-02/:/var/lib/clickhouse
+      - ./clickhouse/initdb.d/:/docker-entrypoint-initdb.d:ro
+      - ./clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/config.d/ch-01-02.xml:/etc/clickhouse-server/config.d/node-config.xml:ro
+      - /var/log/clickhouse-server:/var/log/clickhouse-server
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3

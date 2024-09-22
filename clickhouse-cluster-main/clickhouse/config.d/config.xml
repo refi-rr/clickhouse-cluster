@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<yandex>
+	<logger>
+		<level>debug</level>
+		<console>1</console>
+	</logger>
+	
+    <timezone>Asia/Jakarta</timezone>
+	
+	<mysql_port remove="remove"></mysql_port> 
+
+    <remote_servers replace="replace">
+        <testing_cluster>
+            <shard>
+				<internal_replication>true</internal_replication>
+                <replica>
+                    <host>ch-01-01</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>ch-01-02</host>
+                    <port>9001</port>
+                </replica>
+            </shard>
+        </testing_cluster>
+    </remote_servers>
+
+    <zookeeper>
+        <node index="1">
+            <host>zookeeper-1</host>
+            <port>2181</port>
+        </node>
+        <node index="2">
+            <host>zookeeper-2</host>
+            <port>2181</port>
+        </node>
+        <node index="3">
+            <host>zookeeper-3</host>
+            <port>2181</port>
+        </node>
+    </zookeeper>
+
+    <macros>
+        <cluster>testing_cluster</cluster>
+    </macros>
+</yandex>
