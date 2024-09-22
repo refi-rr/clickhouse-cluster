@@ -32,11 +32,11 @@
         </node>
         <node index="2">
             <host>zookeeper-2</host>
-            <port>2181</port>
+            <port>2182</port>
         </node>
         <node index="3">
             <host>zookeeper-3</host>
-            <port>2181</port>
+            <port>2183</port>
         </node>
     </zookeeper>
 
