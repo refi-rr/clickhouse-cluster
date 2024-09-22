@@ -16,7 +16,7 @@ services:
     environment:
       ZOO_MY_ID: 1
       ZOO_PORT: 2181
-      ZOO_SERVERS: server.1=zookeeper-1:2888:3888:2181 server.2=zookeeper-2:2888:3888:2181 server.3=zookeeper-3:2888:3888:2181
+      ZOO_SERVERS: server.1=zookeeper-1:2181:2888 server.2=zookeeper-2:2181:2888 server.3=zookeeper-3:2181:2888
     healthcheck:
       test: nc -z localhost 2181 || exit 1
       interval: 10s
@@ -30,7 +30,7 @@ services:
     environment:
       ZOO_MY_ID: 2
       ZOO_PORT: 2181
-      ZOO_SERVERS: server.1=zookeeper-1:2888:3888:2181 server.2=zookeeper-2:2888:3888:2181 server.3=zookeeper-3:2888:3888:2181
+      ZOO_SERVERS: server.1=zookeeper-1:2181:2888 server.2=zookeeper-2:2181:2888 server.3=zookeeper-3:2181:2888
     healthcheck:
       test: nc -z localhost 2181 || exit 1
       interval: 10s
@@ -44,7 +44,7 @@ services:
     environment:
       ZOO_MY_ID: 3
       ZOO_PORT: 2181
-      ZOO_SERVERS: server.1=zookeeper-1:2888:3888:2181 server.2=zookeeper-2:2888:3888:2181 server.3=zookeeper-3:2888:3888:2181
+      ZOO_SERVERS: server.1=zookeeper-1:2181:2888 server.2=zookeeper-2:2181:2888 server.3=zookeeper-3:2181:2888
     healthcheck:
       test: nc -z localhost 2181 || exit 1
       interval: 10s
