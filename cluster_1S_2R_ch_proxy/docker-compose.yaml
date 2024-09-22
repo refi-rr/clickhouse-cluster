@@ -9,8 +9,8 @@ services:
       cluster_1S_2R_ch_proxy:
         ipv4_address: 192.168.5.1
     volumes:
-      - ./fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
-      - ./fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ./fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
       - ./var/log/clickhouse-server:/var/log/clickhouse-server
     ports:
       - "127.0.0.1:8123:8123"
@@ -28,8 +28,8 @@ services:
       cluster_1S_2R_ch_proxy:
         ipv4_address: 192.168.5.2
     volumes:
-      - ./fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
-      - ./fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ./fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
       -  ./var/log/clickhouse-server2:/var/log/clickhouse-server
     ports:
       - "127.0.0.1:8124:8123"
@@ -44,7 +44,7 @@ services:
     container_name: clickhouse-keeper-01
     hostname: clickhouse-keeper-01
     volumes:
-      - ./fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - ./fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
       - /var/log/clickhouse-keeper:/var/log/clickhouse-keeper
     networks:
       cluster_1S_2R_ch_proxy:
@@ -57,7 +57,7 @@ services:
     container_name: clickhouse-keeper-02
     hostname: clickhouse-keeper-02
     volumes:
-      - ./fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - ./fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
       - ./var/log/clickhouse-keeper2:/var/log/clickhouse-keeper
     networks:
       cluster_1S_2R_ch_proxy:
@@ -70,7 +70,7 @@ services:
     container_name: clickhouse-keeper-03
     hostname: clickhouse-keeper-03
     volumes:
-      - ./fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - ./fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
       - ./var/log/clickhouse-keeper3:/var/log/clickhouse-keeper
     networks:
       cluster_1S_2R_ch_proxy:
