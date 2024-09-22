@@ -24,7 +24,7 @@ users:
     
 clusters:
   - name: "demo"
-    nodes: ["ch-01-01:9000", "ch-01-02:9001"]
+    nodes: ["ch-01-01:8123", "ch-01-02:8123"]
     users:
       - name: "writer"
         password: "p@ssw0rd"
