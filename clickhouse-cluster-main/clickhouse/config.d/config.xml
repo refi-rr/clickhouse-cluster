@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<yandex>
+<clickhouse>
 	<logger>
 		<level>debug</level>
 		<console>1</console>
@@ -43,4 +43,4 @@
     <macros>
         <cluster>testing_cluster</cluster>
     </macros>
-</yandex>
+</clickhouse>
