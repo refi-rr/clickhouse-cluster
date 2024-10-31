@@ -20,3 +20,5 @@ export default function () {
 
     sleep(1);
 }
+
+#k6 run --env USERNAME=myusername --env PASSWORD=mypassword --env CLICKHOUSE_URL=http://your_clickhouse_server:8123 script.js
