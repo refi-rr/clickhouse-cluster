@@ -1,45 +1,39 @@
 import http from 'k6/http';
-import { check, sleep, Counter } from 'k6';
+import { check, sleep } from 'k6';
+import encoding from 'k6/encoding';
 
-const CLICKHOUSE_URL = 'http://<alamat_ip_clickhouse>:8123'; // Pastikan ini adalah URL lengkap, seperti "http://localhost:8123"
-const USERNAME = '<username>'; // Isi dengan username ClickHouse
-const PASSWORD = '<password>'; // Isi dengan password ClickHouse
-const QUERY = 'SELECT * FROM <nama_tabel> LIMIT 100'; // Isi dengan query yang valid
-
-const requests = new Counter('requests');
+const CLICKHOUSE_URL = 'http://31.220.31.4:8124'; // Ganti dengan alamat IP dan port ClickHouse Anda
+const USERNAME = 'default'; // Ganti dengan username ClickHouse
+const PASSWORD = ''; // Ganti dengan password ClickHouse
+const QUERY = 'SELECT * from sample_db.visit_log'; // Ganti dengan query yang ingin Anda uji
 
 export const options = {
     vus: 10, // Jumlah virtual users
-    duration: '30s', // Durasi pengujian
+    duration: '1m', // Durasi pengujian, misal 1 menit
 };
 
 export default function () {
-    // Pastikan semua nilai konfigurasi sudah terisi
-    if (!CLICKHOUSE_URL || !USERNAME || !PASSWORD || !QUERY) {
-        console.error("Konfigurasi tidak lengkap. Periksa URL, USERNAME, PASSWORD, atau QUERY.");
-        return;
-    }
+    // Membuat URL dengan query sebagai parameter
+    const url = `${CLICKHOUSE_URL}/?query=${encodeURIComponent(QUERY)}`;
 
-    // Membuat header otentikasi
+    // Encode username dan password ke Base64
+    const authHeader = `Basic ${encoding.b64encode(`${USERNAME}:${PASSWORD}`)}`;
+
+    // Menyiapkan header otentikasi
     const headers = {
-        'Content-Type': 'text/plain',
-        'Authorization': `Basic ${btoa(`${USERNAME}:${PASSWORD}`)}`,
+        'Authorization': authHeader,
+        'Content-Type': 'application/x-www-form-urlencoded',
     };
 
-    const params = { headers: headers };
+    // Mengirim request GET ke ClickHouse
+    const response = http.get(url, { headers: headers });
 
-    // Lakukan POST request
-    const response = http.post(CLICKHOUSE_URL, QUERY, params);
-
-    // Debugging
-    console.log(`Status: ${response.status}`);
-    console.log(`Body: ${response.body}`);
-
+    // Memeriksa apakah response sukses (status 200)
     check(response, {
-        'status is 200': (r) => r && r.status === 200,
-        'response time is < 200ms': (r) => r && r.timings.duration < 200,
+        'status is 200': (r) => r.status === 200,
+        'response time < 200ms': (r) => r.timings.duration < 200,
     });
 
-    requests.add(1);
+    // Waktu jeda antar request
     sleep(1);
 }
